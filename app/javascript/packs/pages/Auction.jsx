@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import ActionCable from 'actioncable'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import Axios from 'axios'
 import MainLayout from '../components/layouts/Main'
 import CreateAuction from '../components/auction/CreateAuction'
 import Auctioneer from '../components/auction/Auctioneer'
 import Bidder from '../components/auction/Bidder'
 import UserContext from '../contexts/user'
-import { BIDDER } from '../constants'
-
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import { BIDDER, WS_URL, BASE_URL } from '../constants'
 
 function Auction () {
     const [item, setItem] = useState(null)
@@ -26,14 +25,14 @@ function Auction () {
     }
 
     useEffect(() => {
-        Axios.get('http://localhost:3000/auction')
+        Axios.get(`${BASE_URL}/auction`)
             .then(({ data }) => {
                 setItem(data.item);
                 setBid(data.bid);
             })
             .catch(e => console.log('Error getting auction details'))
 
-        const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
+        const cable = ActionCable.createConsumer(WS_URL)
         cable.subscriptions.create(
             { channel: 'AuctionChannel' },
             { received: message => handleReceivedMessage(message) }
@@ -41,7 +40,7 @@ function Auction () {
     }, [])
 
     const createItem = (item) => {
-        Axios.post('http://localhost:3000/auction', { message: { type: 'new auction', data: item } })
+        Axios.post(`${BASE_URL}/auction`, { message: { type: 'new auction', data: item } })
             .then(() => setItem(item))
             .catch(error => {
                 setErr('Create auction failed!')
@@ -50,7 +49,7 @@ function Auction () {
     }
 
     const sendBid = (bid) => {
-        Axios.post('http://localhost:3000/auction', { message: { type: 'new bid', data: bid } })
+        Axios.post(`${BASE_URL}/auction`, { message: { type: 'new bid', data: bid } })
             .then(() => setBid(bid))
             .catch(error => {
                 setErr('Send bid failed!')
@@ -60,15 +59,17 @@ function Auction () {
 
     return (
         <MainLayout>
-            {item && <Box style={{width: 360}}>
+            <Box style={{width: 360}}>
                 {err && <Typography style={{color: 'red'}}>{err}</Typography>}
                 {user.role === BIDDER
-                    ? <Bidder item={item} bid={bid} sendBid={sendBid} />
+                    ? item 
+                        ? <Bidder item={item} bid={bid} sendBid={sendBid} />
+                        : <></>
                     : item
                         ? <Auctioneer item={item} bid={bid} />
                         : <CreateAuction createItem={createItem} />
                 }
-            </Box>}
+            </Box>
         </MainLayout>
     )
 }

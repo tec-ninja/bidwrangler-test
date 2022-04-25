@@ -15,7 +15,7 @@ function RouteList() {
             <Router>
                 <Routes>
                     <Route path='/' exact element={<Login />} />
-                    <Route path='/auctionpage' exact element={<Auction />} />
+                    <Route path='/auctiondetail' exact element={<Auction />} />
                 </Routes>
             </Router>
         </UserContext.Provider>

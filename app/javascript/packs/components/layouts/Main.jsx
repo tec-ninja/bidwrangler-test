@@ -1,7 +1,6 @@
 import React from 'react'
-import Header from "../common/Header"
-
 import Box from '@mui/material/Box'
+import Header from "../common/Header"
 
 function Main({ children }) {
     return (

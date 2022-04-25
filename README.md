@@ -1,24 +1,32 @@
-# README
+This project is a test for Bid wrangler
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1. Environments:
+- Ruby 2.7.6
+- Node.js 16.13.
 
-Things you may want to cover:
+2. Stacks
+- Rails
+- React
+- Material-UI
+- Websocket
 
-* Ruby version
+3. Install
+- git clone https://github.com/tec-ninja/bidwrangler-test.git
+- cd bidwrangler-test
+- bundle install
+- npm install
 
-* System dependencies
+4. Run
+- rails s
+- dev server url: https://localhost:3000
 
-* Configuration
+5. How to test result
+- Open browser and go to localhost:3000, log in as auctioneer and create auction
+- Open another tab and go to localhost:3000, log in as bidder and see the auction or bid your own price
+  You can create as many bidders you like and see how bidding status updates real time 
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+6. Note to remember
+For the simplicity, the followings are assumed:
+- there's only one active auction at the moment
+- bidder can only bid with the price 100$ greater than the current one
+- every bidder has unique name to identify by

@@ -1,8 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import UserContext from '../../contexts/user'
-import { BIDDER, AUCTIONEER } from '../../constants'
-
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
@@ -11,6 +8,8 @@ import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import UserContext from '../../contexts/user'
+import { BIDDER, AUCTIONEER } from '../../constants'
 
 function Login() {
     const navigate = useNavigate()
@@ -27,7 +26,7 @@ function Login() {
             return
         }
         setUser({name, role})
-        navigate('/auctionpage')
+        navigate('/auctiondetail')
     }
 
     return (

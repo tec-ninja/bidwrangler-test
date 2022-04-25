@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import UserContext from '../../contexts/user'
-
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import UserContext from '../../contexts/user'
 
 function Bidder({ item, bid, sendBid }) {
     const {user, setUser} = useContext(UserContext)
