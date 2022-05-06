@@ -11,24 +11,21 @@ import UserContext from '../contexts/user'
 import { BIDDER, WS_URL, BASE_URL } from '../constants'
 
 function Auction () {
-    const [item, setItem] = useState(null)
-    const [bid, setBid] = useState(null)
+    const [history, setHistory] = useState([])
+    // const [item, setItem] = useState(null)
+    // const [bid, setBid] = useState(null)
     const [err, setErr] = useState('')
     const {user} = useContext(UserContext)
 
     const handleReceivedMessage = message => {
-        if (message.type === 'new auction') {
-            setItem(message.data)
-        } else if (message.type === 'new bid') {
-            setBid(message.data)
-        }
+        setHistory([...history, message.data])
     }
 
     useEffect(() => {
         Axios.get(`${BASE_URL}/auction`)
             .then(({ data }) => {
-                setItem(data.item);
-                setBid(data.bid);
+                let history = data.history;
+                setHistory(history)
             })
             .catch(e => console.log('Error getting auction details'))
 
@@ -41,7 +38,7 @@ function Auction () {
 
     const createItem = (item) => {
         Axios.post(`${BASE_URL}/auction`, { message: { type: 'new auction', data: item } })
-            .then(() => setItem(item))
+            .then(() => setHistory(history => [...history, item]))
             .catch(error => {
                 setErr('Create auction failed!')
                 setTimeout(() => setErr(''), 1000)
@@ -50,7 +47,7 @@ function Auction () {
 
     const sendBid = (bid) => {
         Axios.post(`${BASE_URL}/auction`, { message: { type: 'new bid', data: bid } })
-            .then(() => setBid(bid))
+            .then(() => setHistory(history => [...history, bid]))
             .catch(error => {
                 setErr('Send bid failed!')
                 setTimeout(() => setErr(''), 1000)
@@ -62,11 +59,11 @@ function Auction () {
             <Box style={{width: 360}}>
                 {err && <Typography style={{color: 'red'}}>{err}</Typography>}
                 {user.role === BIDDER
-                    ? item 
-                        ? <Bidder item={item} bid={bid} sendBid={sendBid} />
+                    ? history.length 
+                        ? <Bidder item={history[0]} bid={history[history.length - 1]} sendBid={sendBid} />
                         : <></>
-                    : item
-                        ? <Auctioneer item={item} bid={bid} />
+                    : history.length
+                        ? <Auctioneer history={history} />
                         : <CreateAuction createItem={createItem} />
                 }
             </Box>

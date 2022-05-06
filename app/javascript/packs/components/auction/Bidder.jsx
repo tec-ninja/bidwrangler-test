@@ -21,7 +21,7 @@ function Bidder({ item, bid, sendBid }) {
             </Box>
             {bid && user.name === bid.name
                 ? <Button variant='contained' disabled>{`You bid $${bid.price}`}</Button>
-                : <Button variant='contained' onClick={() => sendBid({name: user.name, price: bid?.price ? bid.price + 100 : item.price + 100})}>
+                : <Button variant='contained' onClick={() => sendBid({name: user.name, price: bid?.price ? bid.price + 100 : item.price + 100, timestamp: new Date()})}>
                     {`Bid $${bid?.price ? bid.price + 100 : item.price + 100}`}
                   </Button>}
         </Box>

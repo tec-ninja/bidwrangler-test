@@ -2,7 +2,7 @@ This project is a test for Bid wrangler
 
 1. Environments:
 - Ruby 2.7.6
-- Node.js 16.13.
+- Node.js 16.13.0
 
 2. Stacks
 - Rails

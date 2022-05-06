@@ -16,7 +16,7 @@ function CreateAuction({ createItem }) {
             <Typography variant='h4'>Create New Auction</Typography>
             <TextField label='Item Name' onChange={e => setName(e.target.value)} />
             <TextField type='number' label='Starting Price' onChange={e => setPrice(parseFloat(e.target.value))} />
-            <Button variant='contained' onClick={() => createItem({name, price, auctioneer: user.name})}>Start Auction</Button>
+            <Button variant='contained' onClick={() => createItem({name, price, auctioneer: user.name, timestamp: new Date() })}>Start Auction</Button>
         </Box>
     )
 }
