@@ -12,13 +12,11 @@ import { BIDDER, WS_URL, BASE_URL } from '../constants'
 
 function Auction () {
     const [history, setHistory] = useState([])
-    // const [item, setItem] = useState(null)
-    // const [bid, setBid] = useState(null)
     const [err, setErr] = useState('')
     const {user} = useContext(UserContext)
 
     const handleReceivedMessage = message => {
-        setHistory([...history, message.data])
+        setHistory(history => [...history, message.data])
     }
 
     useEffect(() => {
@@ -38,7 +36,7 @@ function Auction () {
 
     const createItem = (item) => {
         Axios.post(`${BASE_URL}/auction`, { message: { type: 'new auction', data: item } })
-            .then(() => setHistory(history => [...history, item]))
+            .then(() => console.log('Successfully created!'))
             .catch(error => {
                 setErr('Create auction failed!')
                 setTimeout(() => setErr(''), 1000)
@@ -47,7 +45,7 @@ function Auction () {
 
     const sendBid = (bid) => {
         Axios.post(`${BASE_URL}/auction`, { message: { type: 'new bid', data: bid } })
-            .then(() => setHistory(history => [...history, bid]))
+            .then(() => console.log('Successfully bidded!'))
             .catch(error => {
                 setErr('Send bid failed!')
                 setTimeout(() => setErr(''), 1000)

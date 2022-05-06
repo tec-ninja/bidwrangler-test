@@ -23,8 +23,8 @@ function Auctioneer({ history }) {
             <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
                 <Typography style={{fontWeight: 'bold', color: 'blue'}}>Prior Bids</Typography>
                 {history.length > 2 
-                    ? history.slice(1, history.length - 1).map(item => (
-                        <Typography key={item.name}>{`$${item.price} - ${item.name}`}</Typography>
+                    ? history.slice(1, history.length - 1).map((item, index) => (
+                        <Typography key={index}>{`$${item.price} - ${item.name}`}</Typography>
                     )) 
                     : <Typography>No prior bids!</Typography>}
             </Box>
